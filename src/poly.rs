@@ -9,6 +9,7 @@ pub struct Poly<T: Num> {
     pub f: Vec<T>,
 }
 
+
 impl<T: Num>  Poly<T> {
     pub fn degree(&self) -> usize {
         self.f.len() - 1
@@ -70,42 +71,43 @@ impl<T: Add+Num+std::clone::Clone> Add for Poly<T> {
             f: out_f,
         }.reduce()
     }
+    
 
 } 
 
-// impl<T: Add+Num+std::clone::Clone> Sub for Poly<T> {
-//     type Output = Self;
-// 
-//     fn sub(self, other: Self) -> Self {
-//         let max_dim = cmp::max(self.degree(), other.degree());
-//         let mut out_f: Vec<T> = vec![zero(); max_dim + 1];
-//         for i in 0..self.degree()+1 { out_f[i] = out_f[i].clone() + self.f[i].clone() }
-//         for i in 0..other.degree()+1 { out_f[i] = out_f[i].clone() - other.f[i].clone() }
-// 
-//         Self {
-//             f: out_f,
-//         }.reduce()
-//     }
-// 
-// }
-// 
-// impl<T: Add+Num+std::clone::Clone> Mul for Poly<T> {
-//     type Output = Self;
-// 
-//     fn mul(self, other: Self) -> Self {
-//         let dim = self.degree() + other.degree();
-//         let mut out_f: Vec<T> = vec![zero(); dim + 1];
-//         for i in 0..self.degree()+1 { 
-//             for j in 0..other.degree()+1 {
-//                 out_f[i+j] = out_f[i+j].clone() + self.f[i].clone() * other.f[j].clone()
-//             }
-//         }
-// 
-//         Self {
-//             f: out_f,
-//         }.reduce()
-//     }
-// }
+impl<T: Add+Num+std::clone::Clone> Sub for Poly<T> {
+    type Output = Self;
+
+    fn sub(self, other: Self) -> Self {
+        let max_dim = cmp::max(self.degree(), other.degree());
+        let mut out_f: Vec<T> = vec![zero(); max_dim + 1];
+        for i in 0..self.degree()+1 { out_f[i] = out_f[i].clone() + self.f[i].clone() }
+        for i in 0..other.degree()+1 { out_f[i] = out_f[i].clone() - other.f[i].clone() }
+
+        Self {
+            f: out_f,
+        }.reduce()
+    }
+
+}
+
+impl<T: Add+Num+std::clone::Clone> Mul for Poly<T> {
+    type Output = Self;
+
+    fn mul(self, other: Self) -> Self {
+        let dim = self.degree() + other.degree();
+        let mut out_f: Vec<T> = vec![zero(); dim + 1];
+        for i in 0..self.degree()+1 { 
+            for j in 0..other.degree()+1 {
+                out_f[i+j] = out_f[i+j].clone() + self.f[i].clone() * other.f[j].clone()
+            }
+        }
+
+        Self {
+            f: out_f,
+        }.reduce()
+    }
+}
 
 
 impl<T: Add+Num+std::clone::Clone>  Poly<T> {
